@@ -6,6 +6,8 @@ import 'package:flutter_project/widgets/big_text.dart';
 import 'package:flutter_project/widgets/icon_and_text_widget.dart';
 import 'package:flutter_project/widgets/small_text.dart';
 
+import '../../widgets/app_column.dart';
+
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({Key? key}) : super(key: key);
 
@@ -99,7 +101,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     height: Dimensions.listViewImgSize,
                     decoration: BoxDecoration(
                         borderRadius:
-                        BorderRadius.circular(Dimensions.radius20),
+                            BorderRadius.circular(Dimensions.radius20),
                         color: Colors.black38,
                         image: const DecorationImage(
                             fit: BoxFit.cover,
@@ -130,8 +132,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                             SmallText(text: "With chinese Characteristics"),
                             SizedBox(height: Dimensions.height10),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconAndTextWidget(
                                     icon: Icons.circle_sharp,
@@ -157,7 +158,6 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             );
           },
         ),
-
       ],
     );
   }
@@ -231,49 +231,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     top: Dimensions.height15,
                     left: Dimensions.width15,
                     right: Dimensions.width15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(text: "Chinese Side"),
-                    SizedBox(height: Dimensions.height10),
-                    Row(
-                      children: [
-                        Wrap(
-                          children: List.generate(
-                            5,
-                                (index) =>
-                                Icon(Icons.star,
-                                    color: AppColors.mainColor, size: 15),
-                          ),
-                        ),
-                        SizedBox(width: Dimensions.height10),
-                        SmallText(text: "4.5"),
-                        SizedBox(width: Dimensions.height10),
-                        SmallText(text: "1827"),
-                        SizedBox(width: Dimensions.height10),
-                        SmallText(text: "Comments")
-                      ],
-                    ),
-                    SizedBox(height: Dimensions.height10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconAndTextWidget(
-                            icon: Icons.circle_sharp,
-                            text: "Normal",
-                            iconColor: AppColors.iconColor),
-                        IconAndTextWidget(
-                            icon: Icons.location_on,
-                            text: "1.7km",
-                            iconColor: AppColors.mainColor),
-                        IconAndTextWidget(
-                            icon: Icons.access_time_rounded,
-                            text: "32min",
-                            iconColor: AppColors.iconColor2),
-                      ],
-                    )
-                  ],
-                ),
+                child: const AppColumn(text: "Chinese Turn"),
               ),
             ),
           )
