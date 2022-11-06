@@ -26,6 +26,8 @@ class RecommendedProductController extends GetxController {
       // print(_popularProductList);
       _isLoaded = true;
       update();
-    } else {}
+    } else {
+      print("Could not get recommended products ;(");
+    }
   }
 }
