@@ -4,6 +4,7 @@ import 'package:flutter_project/utils/colors.dart';
 import 'package:get/get.dart';
 
 import '../data/repository/popular_product_repo.dart';
+import '../models/cart_model.dart';
 import '../models/popular_products_model.dart';
 
 class PopularProductController extends GetxController {
@@ -80,11 +81,11 @@ class PopularProductController extends GetxController {
     _cart = cart;
     var exist = false;
     exist = _cart.existInCart(product);
-    print("exist or not : " + exist.toString());
+    // print("exist or not : $exist");
     if (exist) {
       _inCartItems = _cart.getQuantity(product);
     }
-    print("The quantity in the cart is:" + _inCartItems.toString());
+    // print("The quantity in the cart is:$_inCartItems");
   }
 
   void addItem(ProductModel product) {
@@ -92,12 +93,16 @@ class PopularProductController extends GetxController {
     _quantity = 0;
     _inCartItems = _cart.getQuantity(product);
     _cart.items.forEach((key, value) {
-      print("the id is: ${value.id} | quantity is: ${value.quantity}");
+      // print("the id is: ${value.id} | quantity is: ${value.quantity}");
     });
     update();
   }
 
   int get totalItems {
     return _cart.totalItems;
+  }
+
+  List<CartModel> get getItems {
+    return _cart.getItems;
   }
 }
