@@ -1,34 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/popular_product_controller.dart';
+import 'package:flutter_project/pages/home/main_food_page.dart';
+import 'package:flutter_project/utils/app_constants.dart';
 import 'package:flutter_project/utils/colors.dart';
 import 'package:flutter_project/utils/dimensions.dart';
 import 'package:flutter_project/widgets/app_icon.dart';
 import 'package:flutter_project/widgets/expandable_text_widget.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../widgets/app_column.dart';
 import '../../widgets/big_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({Key? key}) : super(key: key);
+  int pageId;
+
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
+    // print("page id is:" + pageId.toString());
+    // print("product name is:" + product.name.toString());
     return Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
             // background image
             Positioned(
-                left: 0,
-                right: 0,
-                child: Container(
-                    width: double.maxFinite,
-                    height: Dimensions.popularFoodImgSize,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/image/owl_pic.jpg"),
-                    )))),
+              left: 0,
+              right: 0,
+              child: Container(
+                width: double.maxFinite,
+                height: Dimensions.popularFoodImgSize,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(AppConstants.BASE_URL +
+                        AppConstants.UPLOAD_URL +
+                        product.img!),
+                  ),
+                ),
+              ),
+            ),
             // icon widget
             Positioned(
               top: Dimensions.height45,
@@ -36,8 +52,12 @@ class PopularFoodDetail extends StatelessWidget {
               right: Dimensions.width20,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  AppIcon(icon: Icons.arrow_back),
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Get.to(() => MainFoodPage());
+                      },
+                      child: AppIcon(icon: Icons.arrow_back)),
                   AppIcon(icon: Icons.shopping_cart_checkout_outlined),
                 ],
               ),
@@ -63,14 +83,13 @@ class PopularFoodDetail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppColumn(text: "Chinese Turn"),
+                        AppColumn(text: product.name!),
                         SizedBox(height: Dimensions.height20),
                         BigText(text: "Introduce"),
                         Expanded(
                           child: SingleChildScrollView(
                               child: ExpandableTextWidget(
-                                  text:
-                                      "hellow My Wordl sdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff:)")),
+                                  text: product.description!)),
                         )
                       ],
                     ))),
@@ -118,11 +137,13 @@ class PopularFoodDetail extends StatelessWidget {
                     bottom: Dimensions.height20,
                     left: Dimensions.width20,
                     right: Dimensions.width20),
-                child: BigText(text: "\$10 | Add to cart", color: Colors.white),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   color: AppColors.mainColor,
                 ),
+                child: BigText(
+                    text: "\$${product.price!} | Add to cart",
+                    color: Colors.white),
               )
             ],
           ),

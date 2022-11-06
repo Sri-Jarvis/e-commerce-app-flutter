@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/controllers/recommended_product_Controller.dart';
+import 'package:flutter_project/routes/route_helper.dart';
+import 'package:flutter_project/utils/app_constants.dart';
 import 'package:flutter_project/utils/dimensions.dart';
 import 'package:flutter_project/widgets/big_text.dart';
 import 'package:flutter_project/widgets/expandable_text_widget.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../utils/colors.dart';
 import '../../widgets/app_icon.dart';
 
 class RecommendedFoodDetails extends StatelessWidget {
-  const RecommendedFoodDetails({Key? key}) : super(key: key);
+  final int pageId;
+
+  const RecommendedFoodDetails({Key? key, required this.pageId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<RecommendedProductController>().recommendedProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 80,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                AppIcon(icon: Icons.clear),
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.getInitial());
+                    },
+                    child: AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -38,7 +53,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                   child: Center(
                     child: BigText(
                       size: Dimensions.font26,
-                      text: "chinese turns",
+                      text: product.name!,
                     ),
                   )),
             ),
@@ -46,8 +61,8 @@ class RecommendedFoodDetails extends StatelessWidget {
             backgroundColor: const Color(0xFF023030),
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-              "assets/image/owl_pic.jpg",
+                background: Image.network(
+              AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!,
               width: double.maxFinite,
               fit: BoxFit.cover,
             )),
@@ -56,9 +71,7 @@ class RecommendedFoodDetails extends StatelessWidget {
               child: Column(
             children: [
               Container(
-                child: ExpandableTextWidget(
-                    text:
-                        " Chicken marinated in a spiced  yoguert Chicken marinated in a spiced  yoguert Chicken marinated in a spiced  yoguert Chicken marinated in a spiced  yoguert Chicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguertChicken marinated in a spiced  yoguert"),
+                child: ExpandableTextWidget(text: product.description!),
                 margin: EdgeInsets.only(
                     left: Dimensions.width20, right: Dimensions.width20),
               )
@@ -85,7 +98,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                     backgroundColor: AppColors.mainColor,
                     icon: Icons.remove),
                 BigText(
-                    text: "\$12.88" + " X " + "0",
+                    text: "\$${product.price!} X 0",
                     color: AppColors.mainBlackcolor,
                     size: Dimensions.font26),
                 AppIcon(
