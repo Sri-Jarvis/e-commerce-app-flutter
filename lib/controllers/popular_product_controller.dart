@@ -32,9 +32,7 @@ class PopularProductController extends GetxController {
     if (response.statusCode == 200) {
       // print("got products!! yeyyy !!");
       _popularProductList = [];
-      _popularProductList.addAll(Product
-          .fromJson(response.body)
-          .products);
+      _popularProductList.addAll(Product.fromJson(response.body).products);
       // print(_popularProductList);
       _isLoaded = true;
       update();
@@ -58,6 +56,10 @@ class PopularProductController extends GetxController {
         backgroundColor: AppColors.mainColor,
         colorText: Colors.white,
       );
+      if (_inCartItems > 0) {
+        _quantity = -_inCartItems;
+        return _quantity;
+      }
       return 0;
     } else if ((_inCartItems + quantity) > 20) {
       Get.snackbar(
@@ -92,5 +94,10 @@ class PopularProductController extends GetxController {
     _cart.items.forEach((key, value) {
       print("the id is: ${value.id} | quantity is: ${value.quantity}");
     });
+    update();
+  }
+
+  int get totalItems {
+    return _cart.totalItems;
   }
 }
